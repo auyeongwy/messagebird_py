@@ -11,29 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-"""
-A script to interface with the MessageBird REST API
-Usage:
-
-python3 mb_sms.py
-"""
-
-import mb_config
-import sys
-
-try:
-	config = mb_config.mb_config("config.real")
-except Exception as excep:
-	print(excep.args[0])
-	sys.exit()
-
-print(config.message)
-print(config.recipient)
-print(config.oa)
-print(config.sms_api_key)
-print(vars(config))
