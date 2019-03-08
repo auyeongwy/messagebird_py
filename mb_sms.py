@@ -24,7 +24,7 @@ python3 mb_sms.py
 """
 
 import mb_config
-import sys, http.client
+import sys, http.client, json
 
 try:
 	config = mb_config.mb_config("config.real")
@@ -45,6 +45,7 @@ except http.client.HTTPException as he:
 	
 print(response.status)
 print(response.reason)
-v_result = response.read()
-print(v_result.decode('utf-8'))
+v_result = (response.read()).decode('utf-8')
+print(json.dumps(json.loads(v_result), indent=2, sort_keys=True))
+
 v_client_conn.close()
