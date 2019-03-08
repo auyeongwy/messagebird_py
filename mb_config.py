@@ -46,4 +46,7 @@ class mb_config:
 			self.oa = self.config["Message"]["OA"]
 			self.recipient = self.config["Message"]["Recipient"]
 			self.message = self.config["Message"]["Message"]
+			
+			if len(self.config["Message Bird"]["SMS_API_KEY"]) == 0:
+				raise Exception("Missing API Key")
 		

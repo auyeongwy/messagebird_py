@@ -24,7 +24,7 @@ python3 mb_sms.py
 """
 
 import mb_config
-import sys
+import sys, http.client
 
 try:
 	config = mb_config.mb_config("config.real")
@@ -32,8 +32,19 @@ except Exception as excep:
 	print(excep.args[0])
 	sys.exit()
 
-print(config.message)
-print(config.recipient)
-print(config.oa)
-print(config.sms_api_key)
-print(vars(config))
+api_key_header = 'AccessKey '+config.sms_api_key
+#print(vars(config))
+	
+v_client_conn = http.client.HTTPSConnection('rest.messagebird.com')
+try:
+	v_client_conn.request("GET","/messages", None, {'Authorization':api_key_header})
+	response = v_client_conn.getresponse()
+except http.client.HTTPException as he:
+	print(he.args[0])
+	sys.exit
+	
+print(response.status)
+print(response.reason)
+v_result = response.read()
+print(v_result.decode('utf-8'))
+v_client_conn.close()
