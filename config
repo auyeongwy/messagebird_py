@@ -1,7 +1,20 @@
-[Message Bird]
+[Key]
 SMS_API_Key=
 
 [Message]
-OA=6583220368
-Recipient=6583220368
+OA=
+Recipient=
 Message="Hello how is everyone"
+
+[Filter]
+enabled=1
+originator=FINTECH
+#recipient=
+#limit=10
+#direction=mt
+#offset=2
+#searchterm=bit
+#type=sms
+#status=delivery_failed
+#from=2019-03-05T00:00:00+08:00
+#until=2019-03-08T00:00:00+08:00
