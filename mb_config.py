@@ -85,6 +85,16 @@ class mb_config:
 			self.filter_enabled = '0'
 
 		
+
+	def read_view_config(self, p_config):
+		""" 
+		Reads config options from the "View" part of the config file into the current object's variables.
+		:param p_config: The configparser.ConfigParser object that has opened the config file. 
+		"""
+		if "id" in p_config["View"]:
+			self.view_id = p_config["View"]["id"]
+
+
 		
 	def __init__(self, p_file):
 		""" 
@@ -103,4 +113,4 @@ class mb_config:
 			
 		self.read_message_config(config)
 		self.read_filter_config(config)
-		
+		self.read_view_config(config)

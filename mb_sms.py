@@ -28,11 +28,13 @@ import sys
 import http.client 
 import json
 import urllib
+import argument_parser
 
 
-def create_url(p_config):
+
+def create_query_url(p_config):
 	"""
-	Constructs the URL for the REST request
+	Constructs the URL for the query request
 	:param p_config: An mb_config.mb_config object that contains the configuration parameters
 	"""
 	url = '/messages'
@@ -67,6 +69,17 @@ def create_url(p_config):
 	
 	
 	
+def create_view_url(p_config):
+	"""
+	Constructs the URL for the query request
+	:param p_config: An mb_config.mb_config object that contains the configuration parameters
+	"""
+	url = '/messages'
+	
+	return url
+	
+	
+		
 def create_payload(p_config):
 	"""
 	Constructs the payload for the REST request
@@ -95,6 +108,14 @@ def create_header(p_config):
 	
 	
 
+"""
+Main function starts here.
+"""
+(result, command, argument) = argument_parser. parse_arguments(sys.argv)
+if result == 0:
+	sys.exit()
+
+	
 """ Load the config file """
 try:
 	config = mb_config.mb_config("config.real")
@@ -108,12 +129,14 @@ v_payload = create_payload(config)
 
 
 
-v_client_conn = http.client.HTTPSConnection('rest.messagebird.com')
-v_url = create_url(config)
-#print(v_url)
+if v_operation == 'query':
+	v_url = create_query_url(config)
+	v_method = 'GET'
+
 	
 try:
-	v_client_conn.request("GET", v_url, None, create_header(config))
+	v_client_conn = http.client.HTTPSConnection('rest.messagebird.com')
+	v_client_conn.request(v_method, v_url, None, create_header(config))
 	response = v_client_conn.getresponse()
 except http.client.HTTPException as he:
 	print(he.args[0])
