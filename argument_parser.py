@@ -18,11 +18,19 @@
 
 
 def print_help():
+	"""
+	Prints the help text.
+	"""
 	print("Help text")
 
 
 
 def parse_arguments(p_args):
+	"""
+	Parses input arguments at the command line.
+	:param p_args: The python sys.args object.
+	:return: A set (result, command, arguments). If result=0, the input arguments have an error. "command" is one of the commands suported my the SMS system - 'invoke', 'query', send', etc. "arguments" is valid only if the "command" needs an additional argument. Otherwise it returns None.
+	"""
 	result = 0
 	command = None
 	argument = None
@@ -40,6 +48,8 @@ def parse_arguments(p_args):
 			print("Incorrect arguments.")
 			print_help()
 		else:
+			result = 1
+			command = 'view'
 			argument = p_args[2]
 
 	else:

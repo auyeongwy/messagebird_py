@@ -36,6 +36,7 @@ def create_query_url(p_config):
 	"""
 	Constructs the URL for the query request
 	:param p_config: An mb_config.mb_config object that contains the configuration parameters
+	:return: The URL to use for the REST request.
 	"""
 	url = '/messages'
 	params = {}
@@ -69,14 +70,13 @@ def create_query_url(p_config):
 	
 	
 	
-def create_view_url(p_config):
+def create_view_url(p_id):
 	"""
 	Constructs the URL for the query request
-	:param p_config: An mb_config.mb_config object that contains the configuration parameters
+	:param p_id: The message id to view.
+	:return: The URL to use for the REST request.
 	"""
-	url = '/messages'
-	
-	return url
+	return '/messages/'+p_id
 	
 	
 		
@@ -111,7 +111,7 @@ def create_header(p_config):
 """
 Main function starts here.
 """
-(result, command, argument) = argument_parser. parse_arguments(sys.argv)
+(result, v_operation, v_argument) = argument_parser. parse_arguments(sys.argv)
 if result == 0:
 	sys.exit()
 
@@ -123,17 +123,22 @@ except Exception as excep:
 	print(excep.args[0])
 	sys.exit()
 
-""" Get the access key """
+""" Create a JSON payload if valid """
 v_payload = create_payload(config)
-#print(vars(config))
 
 
-
+""" Process the operation """
 if v_operation == 'query':
 	v_url = create_query_url(config)
 	v_method = 'GET'
+elif v_operation == 'view':
+	v_url = create_view_url(v_argument)
+	v_method = 'GET'
+else:
+	sys.exit()
 
-	
+
+""" Send the request """
 try:
 	v_client_conn = http.client.HTTPSConnection('rest.messagebird.com')
 	v_client_conn.request(v_method, v_url, None, create_header(config))
